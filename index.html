@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヒヨコ隊 - 日本語教師の卵を応援する素材置き場</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#FFFBF5;font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;color:#412402;}
+a{text-decoration:none;color:inherit;}
+
+/* ヘッダー */
+.header{background:#FFF8EE;border-bottom:0.5px solid #F5C4B3;padding:0 1.5rem;position:sticky;top:0;z-index:100;}
+.header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;}
+.logo{display:flex;align-items:center;gap:8px;cursor:pointer;}
+.logo-icon{width:32px;height:32px;background:#FAEEDA;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-text{font-size:17px;font-weight:600;color:#633806;}
+.logo-sub{font-size:11px;color:#854F0B;}
+.nav{display:flex;gap:4px;}
+.nav-btn{font-size:13px;padding:6px 12px;border-radius:8px;border:none;background:transparent;color:#854F0B;cursor:pointer;transition:background 0.15s;}
+.nav-btn:hover,.nav-btn.active{background:#FAEEDA;font-weight:500;}
+
+/* ページ切替 */
+.page{display:none;}
+.page.show{display:block;}
+
+/* ヒーロー */
+.hero{background:#FFF8EE;padding:2.5rem 1.5rem 2rem;text-align:center;border-bottom:0.5px solid #F5C4B3;}
+.hero-title{font-size:24px;font-weight:600;color:#412402;margin-bottom:8px;}
+.hero-sub{font-size:14px;color:#854F0B;line-height:1.7;max-width:480px;margin:0 auto 1.25rem;}
+.search-wrap{max-width:480px;margin:0 auto;display:flex;gap:8px;}
+.search-wrap input{flex:1;padding:9px 16px;border-radius:99px;border:1px solid #F5C4B3;background:#FFFBF5;font-size:14px;color:#412402;outline:none;}
+.search-wrap input:focus{border-color:#EF9F27;}
+.search-btn{padding:9px 20px;border-radius:99px;border:none;background:#EF9F27;color:#412402;font-size:14px;font-weight:500;cursor:pointer;}
+
+/* フィルター */
+.filter-row{max-width:900px;margin:1.25rem auto 0;padding:0 1.5rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.filter-label{font-size:12px;color:#854F0B;}
+.tag{font-size:12px;padding:5px 14px;border-radius:99px;border:1px solid #F5C4B3;background:#FFFBF5;color:#633806;cursor:pointer;transition:background 0.15s;}
+.tag.active{background:#FAEEDA;border-color:#EF9F27;font-weight:500;}
+.tag:hover{background:#FFF8EE;}
+
+/* メイン */
+.main{max-width:900px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:1fr 220px;gap:16px;align-items:start;}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.section-title{font-size:15px;font-weight:500;color:#412402;}
+.sort-select{font-size:12px;padding:5px 10px;border-radius:8px;border:0.5px solid #F5C4B3;background:#FFFBF5;color:#633806;}
+
+/* ギャラリー */
+.gallery{columns:3;gap:12px;}
+@media(max-width:600px){.gallery{columns:2;}.main{grid-template-columns:1fr;}}
+.card{break-inside:avoid;margin-bottom:12px;background:#fff;border:0.5px solid #F5C4B3;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s;}
+.card:hover{border-color:#EF9F27;}
+.card-img{width:100%;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.card-body{padding:10px 12px 12px;}
+.card-title{font-size:13px;font-weight:500;color:#412402;margin-bottom:6px;}
+.card-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.card-author{font-size:11px;color:#854F0B;display:flex;align-items:center;gap:4px;}
+.author-dot{width:18px;height:18px;border-radius:50%;background:#FAEEDA;display:flex;align-items:center;justify-content:center;font-size:10px;color:#633806;font-weight:500;}
+.card-dl{font-size:11px;color:#B4B2A9;display:flex;align-items:center;gap:3px;}
+.dl-btn{width:100%;padding:7px;border-radius:8px;border:1px solid #F5C4B3;background:#FFF8EE;color:#633806;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:background 0.15s;}
+.dl-btn:hover{background:#FAEEDA;border-color:#EF9F27;}
+.ai-badge{font-size:10px;padding:2px 7px;border-radius:99px;background:#EAF3DE;color:#27500A;margin-left:4px;}
+
+/* サイドバー */
+.sidebar{}
+.side-card{background:#FFF8EE;border:0.5px solid #F5C4B3;border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px;}
+.side-title{font-size:13px;font-weight:500;color:#633806;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.rank-row{display:flex;align-items:center;gap:10px;font-size:13px;padding:4px 0;}
+.rank-num{width:20px;font-weight:500;color:#EF9F27;text-align:center;flex-shrink:0;}
+.rank-name{flex:1;color:#412402;}
+.rank-dl{font-size:11px;color:#B4B2A9;}
+
+/* リクエストボックス */
+.req-box{background:#FFF8EE;border:1.5px dashed #F5C4B3;border-radius:12px;padding:1rem 1.25rem;margin-top:1rem;cursor:pointer;text-align:center;transition:border-color 0.15s;}
+.req-box:hover{border-color:#EF9F27;}
+.req-title{font-size:13px;font-weight:500;color:#633806;margin-bottom:4px;}
+.req-sub{font-size:12px;color:#854F0B;}
+
+/* モーダル */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(65,36,2,0.4);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal{background:#FFFBF5;border-radius:16px;border:0.5px solid #F5C4B3;padding:1.5rem;max-width:340px;width:90%;}
+.modal-img{width:100%;border-radius:8px;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+.modal-title{font-size:16px;font-weight:500;color:#412402;margin-bottom:6px;}
+.modal-author{font-size:13px;color:#854F0B;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.modal-stats{display:flex;gap:12px;margin-bottom:1.25rem;}
+.stat{font-size:12px;color:#854F0B;display:flex;align-items:center;gap:4px;}
+.modal-dl-btn{width:100%;padding:11px;border-radius:8px;border:none;background:#EF9F27;color:#412402;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;}
+.modal-close{width:100%;padding:8px;border-radius:8px;border:0.5px solid #F5C4B3;background:transparent;color:#854F0B;font-size:13px;cursor:pointer;}
+
+/* aboutページ */
+.about-wrap{max-width:720px;margin:0 auto;padding:2rem 1.5rem;}
+.about-hero{text-align:center;padding:2rem 0 2.5rem;}
+.chick{font-size:56px;margin-bottom:1rem;}
+.about-title{font-size:22px;font-weight:600;color:#412402;margin-bottom:8px;}
+.about-sub{font-size:15px;color:#854F0B;line-height:1.7;}
+.about-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:1.5rem 0;}
+.acard{background:#fff;border:0.5px solid #F5C4B3;border-radius:12px;padding:1.25rem;}
+.acard-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:18px;}
+.acard-title{font-size:14px;font-weight:500;color:#412402;margin-bottom:6px;}
+.acard-text{font-size:13px;color:#854F0B;line-height:1.6;}
+.about-rule{background:#FFF8EE;border:0.5px solid #F5C4B3;border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+.rule-title{font-size:14px;font-weight:500;color:#633806;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.rule-row{display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:13px;color:#412402;}
+.about-admin{background:#fff;border:0.5px solid #F5C4B3;border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0;display:flex;align-items:flex-start;gap:16px;}
+.admin-avatar{width:52px;height:52px;border-radius:50%;background:#FAEEDA;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.admin-name{font-size:15px;font-weight:500;color:#412402;margin-bottom:4px;}
+.admin-text{font-size:13px;color:#854F0B;line-height:1.6;}
+.admin-note{font-size:11px;color:#B4B2A9;margin-top:4px;}
+.contact-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.contact-btn{font-size:12px;padding:5px 12px;border-radius:99px;border:0.5px solid #F5C4B3;background:#FFF8EE;color:#633806;cursor:pointer;}
+
+/* 提供者ページ */
+.contrib-wrap{max-width:760px;margin:0 auto;padding:2rem 1.5rem;}
+.contrib-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+.contrib-title{font-size:18px;font-weight:500;color:#412402;}
+.period-select{font-size:12px;padding:5px 10px;border-radius:8px;border:0.5px solid #F5C4B3;background:#FFFBF5;color:#633806;}
+.ranking-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:1.5rem;align-items:end;}
+.rank-card{background:#fff;border:0.5px solid #F5C4B3;border-radius:12px;padding:1rem;text-align:center;}
+.rank-card.first{border-color:#EF9F27;border-width:1.5px;}
+.rank-num-big{font-size:18px;font-weight:500;margin-bottom:8px;}
+.rank-avatar-big{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500;margin:0 auto 8px;}
+.rank-name-big{font-size:14px;font-weight:500;color:#412402;margin-bottom:2px;}
+.rank-dl-big{font-size:12px;color:#854F0B;}
+.contrib-list{display:flex;flex-direction:column;gap:8px;}
+.contrib-row{background:#fff;border:0.5px solid #F5C4B3;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:14px;}
+.contrib-rank{width:28px;font-size:14px;font-weight:500;color:#EF9F27;text-align:center;flex-shrink:0;}
+.contrib-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;flex-shrink:0;}
+.contrib-name{font-size:14px;font-weight:500;color:#412402;}
+.contrib-tags{display:flex;gap:4px;margin-top:3px;flex-wrap:wrap;}
+.ctag{font-size:10px;padding:2px 7px;border-radius:99px;background:#FFF8EE;border:0.5px solid #F5C4B3;color:#854F0B;}
+.contrib-stats{text-align:right;flex-shrink:0;}
+.contrib-dl{font-size:15px;font-weight:500;color:#412402;}
+.contrib-dl-label{font-size:11px;color:#B4B2A9;}
+.join-box{background:#FFF8EE;border:1.5px dashed #F5C4B3;border-radius:12px;padding:1.25rem;margin-top:1.5rem;text-align:center;cursor:pointer;transition:border-color 0.15s;}
+.join-box:hover{border-color:#EF9F27;}
+
+/* フッター */
+.footer{background:#FFF8EE;border-top:0.5px solid #F5C4B3;padding:1.5rem;text-align:center;margin-top:3rem;}
+.footer-text{font-size:12px;color:#B4B2A9;line-height:1.8;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo" onclick="showPage('top')">
+      <div class="logo-icon">🐣</div>
+      <div>
+        <div class="logo-text">ヒヨコ隊</div>
+        <div class="logo-sub">日本語教師の卵を応援する素材置き場</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" onclick="showPage('top',this)">素材一覧</button>
+      <button class="nav-btn" onclick="showPage('contrib',this)">提供者一覧</button>
+      <button class="nav-btn" onclick="showPage('about',this)">about</button>
+    </nav>
+  </div>
+</div>
+
+<!-- 素材一覧ページ -->
+<div class="page show" id="top">
+  <div class="hero">
+    <div class="hero-title">日本語教師の卵を、みんなで応援しよう</div>
+    <div class="hero-sub">絵カード・教案・イラストを無料で共有。有志による素材置き場です。</div>
+    <div class="search-wrap">
+      <input type="text" placeholder="例：食べ物、動詞、あいさつ...">
+      <button class="search-btn">検索</button>
+    </div>
+  </div>
+
+  <div class="filter-row">
+    <span class="filter-label">カテゴリ：</span>
+    <span class="tag active" onclick="filterTag(this)">すべて</span>
+    <span class="tag" onclick="filterTag(this)">絵カード</span>
+    <span class="tag" onclick="filterTag(this)">教案</span>
+    <span class="tag" onclick="filterTag(this)">食べ物</span>
+    <span class="tag" onclick="filterTag(this)">動詞</span>
+    <span class="tag" onclick="filterTag(this)">あいさつ</span>
+    <span class="tag" onclick="filterTag(this)">AIイラスト</span>
+  </div>
+
+  <div class="main">
+    <div>
+      <div class="section-head">
+        <span class="section-title">素材一覧 <span style="font-size:12px;font-weight:400;color:#B4B2A9;">（6件）</span></span>
+        <select class="sort-select">
+          <option>新着順</option>
+          <option>人気順</option>
+          <option>ダウンロード数順</option>
+        </select>
+      </div>
+      <div class="gallery">
+        <div class="card" onclick="openModal(0)">
+          <div class="card-img" style="background:#FFF8EE;">
+            <svg width="80" height="70" viewBox="0 0 80 70"><ellipse cx="40" cy="48" rx="22" ry="16" fill="#FAEEDA"/><circle cx="40" cy="28" r="18" fill="#FAC775"/><circle cx="34" cy="25" r="2.5" fill="#412402"/><circle cx="46" cy="25" r="2.5" fill="#412402"/><ellipse cx="40" cy="32" rx="5" ry="3" fill="#EF9F27"/></svg>
+          </div>
+          <div class="card-body">
+            <div class="card-title">あいさつカード（ひよこセット）<span class="ai-badge">AI</span></div>
+            <div class="card-meta">
+              <div class="card-author"><div class="author-dot">さ</div>さくら先生</div>
+              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>142</div>
+            </div>
+            <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
+          </div>
+        </div>
+        <div class="card" onclick="openModal(1)">
+          <div class="card-img" style="background:#E1F5EE;">
+            <svg width="70" height="70" viewBox="0 0 70 70"><rect x="10" y="15" width="50" height="40" rx="4" fill="#9FE1CB"/><rect x="18" y="24" width="34" height="6" rx="2" fill="#085041"/><rect x="18" y="34" width="22" height="4" rx="2" fill="#0F6E56"/><rect x="18" y="42" width="28" height="4" rx="2" fill="#0F6E56"/></svg>
+          </div>
+          <div class="card-body">
+            <div class="card-title">動詞カード「たべます」</div>
+            <div class="card-meta">
+              <div class="card-author"><div class="author-dot">た</div>田中たろう</div>
+              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>98</div>
+            </div>
+            <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
+          </div>
+        </div>
+        <div class="card" onclick="openModal(2)">
+          <div class="card-img" style="background:#FAECE7;">
+            <svg width="60" height="80" viewBox="0 0 60 80"><rect x="8" y="8" width="44" height="64" rx="4" fill="#F5C4B3"/><rect x="14" y="16" width="32" height="4" rx="2" fill="#993C1D"/><rect x="14" y="24" width="20" height="3" rx="1.5" fill="#D85A30"/><rect x="14" y="31" width="28" height="3" rx="1.5" fill="#D85A30"/><rect x="14" y="50" width="32" height="12" rx="2" fill="#F0997B"/></svg>
+          </div>
+          <div class="card-body">
+            <div class="card-title">初級教案テンプレート vol.1</div>
+            <div class="card-meta">
+              <div class="card-author"><div class="author-dot">み</div>みどり</div>
+              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>76</div>
+            </div>
+            <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
+          </div>
+        </div>
+        <div class="card" onclick="openModal(3)">
+          <div class="card-img" style="background:#EEEDFE;">
+            <svg width="80" height="60" viewBox="0 0 80 60"><circle cx="20" cy="30" r="13" fill="#AFA9EC"/><circle cx="40" cy="30" r="13" fill="#7F77DD"/><circle cx="60" cy="30" r="13" fill="#534AB7"/><text x="20" y="34" text-anchor="middle" font-size="10" fill="#EEEDFE">肉</text><text x="40" y="34" text-anchor="middle" font-size="10" fill="#EEEDFE">魚</text><text x="60" y="34" text-anchor="middle" font-size="10" fill="#EEEDFE">野菜</text></svg>
+          </div>
+          <div class="card-body">
+            <div class="card-title">食べ物カード（肉・魚・野菜）<span class="ai-badge">AI</span></div>
+            <div class="card-meta">
+              <div class="card-author"><div class="author-dot">は</div>はな先生</div>
+              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>201</div>
+            </div>
+            <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
+          </div>
+        </div>
+        <div class="card" onclick="openModal(4)">
+          <div class="card-img" style="background:#FFF8EE;">
+            <svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="30" r="20" fill="#FAC775"/><circle cx="28" cy="27" r="3" fill="#412402"/><circle cx="42" cy="27" r="3" fill="#412402"/><path d="M27 38 Q35 46 43 38" stroke="#412402" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-body">
+            <div class="card-title">感情カード「うれしい」</div>
+            <div class="card-meta">
+              <div class="card-author"><div class="author-dot">さ</div>さくら先生</div>
+              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>55</div>
+            </div>
+            <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
+          </div>
+        </div>
+        <div class="card" onclick="openModal(5)">
+          <div class="card-img" style="background:#EAF3DE;">
+            <svg width="60" height="80" viewBox="0 0 60 80"><rect x="10" y="10" width="40" height="60" rx="4" fill="#C0DD97"/><rect x="16" y="18" width="28" height="4" rx="2" fill="#27500A"/><rect x="16" y="26" width="18" height="3" rx="1.5" fill="#3B6D11"/><rect x="16" y="33" width="24" height="3" rx="1.5" fill="#3B6D11"/><circle cx="38" cy="56" r="9" fill="#639922"/><text x="38" y="60" text-anchor="middle" font-size="9" fill="#EAF3DE">OK</text></svg>
+          </div>
+          <div class="card-body">
+            <div class="card-title">N5文型練習シート</div>
+            <div class="card-meta">
+              <div class="card-author"><div class="author-dot">た</div>田中たろう</div>
+              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>33</div>
+            </div>
+            <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
+          </div>
+        </div>
+      </div>
+      <div class="req-box">
+        <div class="req-title"><i class="ti ti-message-question" style="font-size:16px;"></i> 欲しい素材をリクエストする</div>
+        <div class="req-sub">「こんな絵カードが欲しい！」を投稿すると、有志が作ってくれるかも</div>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="side-card">
+        <div class="side-title"><i class="ti ti-award" style="font-size:16px;color:#EF9F27;"></i>人気の投稿者</div>
+        <div class="rank-row"><span class="rank-num">1</span><span class="rank-name">はな先生</span><span class="rank-dl">201DL</span></div>
+        <div class="rank-row"><span class="rank-num">2</span><span class="rank-name">さくら先生</span><span class="rank-dl">197DL</span></div>
+        <div class="rank-row"><span class="rank-num">3</span><span class="rank-name">田中たろう</span><span class="rank-dl">131DL</span></div>
+        <div class="rank-row"><span class="rank-num">4</span><span class="rank-name">みどり</span><span class="rank-dl">76DL</span></div>
+      </div>
+      <div class="side-card">
+        <div class="side-title"><i class="ti ti-flame" style="font-size:16px;color:#D85A30;"></i>人気のリクエスト</div>
+        <div class="rank-row"><span class="rank-num" style="color:#D85A30;">12</span><span class="rank-name" style="font-size:12px;">乗り物カードが欲しい</span></div>
+        <div class="rank-row"><span class="rank-num" style="color:#D85A30;">8</span><span class="rank-name" style="font-size:12px;">天気の絵カード</span></div>
+        <div class="rank-row"><span class="rank-num" style="color:#D85A30;">5</span><span class="rank-name" style="font-size:12px;">N4教案テンプレ</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- aboutページ -->
+<div class="page" id="about">
+  <div class="about-wrap">
+    <div class="about-hero">
+      <div class="chick">🐣</div>
+      <div class="about-title">日本語教師の卵を、みんなで応援しよう</div>
+      <div class="about-sub">ヒヨコ隊は、日本語教師を目指す方のために有志が自作の教材・絵カード・教案を無料で共有する素材置き場です。</div>
+    </div>
+    <div class="about-cards">
+      <div class="acard">
+        <div class="acard-icon" style="background:#FAEEDA;"><i class="ti ti-gift" style="color:#854F0B;"></i></div>
+        <div class="acard-title">完全無料</div>
+        <div class="acard-text">掲載されているすべての素材は無料でダウンロードできます。登録不要で使えます。</div>
+      </div>
+      <div class="acard">
+        <div class="acard-icon" style="background:#EAF3DE;"><i class="ti ti-users" style="color:#27500A;"></i></div>
+        <div class="acard-title">有志による運営</div>
+        <div class="acard-text">教師の卵を応援したい有志が自作素材を提供しています。広告なし・営利目的なしの場所です。</div>
+      </div>
+      <div class="acard">
+        <div class="acard-icon" style="background:#EEEDFE;"><i class="ti ti-shield-check" style="color:#534AB7;"></i></div>
+        <div class="acard-title">著作権は投稿者に帰属</div>
+        <div class="acard-text">すべての素材の著作権は制作者本人に帰属します。AI生成素材は明記されています。</div>
+      </div>
+    </div>
+    <div class="about-rule">
+      <div class="rule-title"><i class="ti ti-list-check" style="font-size:16px;"></i>ご利用にあたってのお願い</div>
+      <div class="rule-row"><i class="ti ti-check" style="color:#EF9F27;font-size:15px;margin-top:1px;flex-shrink:0;"></i>素材は日本語教育目的でご自由にお使いください</div>
+      <div class="rule-row"><i class="ti ti-check" style="color:#EF9F27;font-size:15px;margin-top:1px;flex-shrink:0;"></i>素材の再配布・販売はご遠慮ください</div>
+      <div class="rule-row"><i class="ti ti-check" style="color:#EF9F27;font-size:15px;margin-top:1px;flex-shrink:0;"></i>クレジット表示は任意ですが、していただけると投稿者が喜びます</div>
+      <div class="rule-row"><i class="ti ti-check" style="color:#EF9F27;font-size:15px;margin-top:1px;flex-shrink:0;"></i>問題のある素材を見つけた場合は下記までご連絡ください</div>
+    </div>
+    <div class="about-admin">
+      <div class="admin-avatar">🐤</div>
+      <div>
+        <div class="admin-name">管理者：サトレン</div>
+        <div class="admin-text">日本語教師を目指す方を応援したくてこのサイトを作りました。素材を提供してくださる有志の皆さんのおかげで成り立っています。</div>
+        <div class="admin-note">本サイトはサトレン個人が非営利で運営しています。noteでの個人活動とは独立しています。</div>
+        <div class="contact-row">
+          <span class="contact-btn"><i class="ti ti-mail" style="font-size:12px;"></i> hiyokotai.info@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 提供者一覧ページ -->
+<div class="page" id="contrib">
+  <div class="contrib-wrap">
+    <div class="contrib-head">
+      <div class="contrib-title">提供者一覧</div>
+      <select class="period-select">
+        <option>累計ランキング</option>
+        <option>今月のランキング</option>
+        <option>新着順</option>
+      </select>
+    </div>
+    <div class="ranking-top">
+      <div class="rank-card" style="margin-top:24px;">
+        <div class="rank-num-big" style="color:#888780;">2位</div>
+        <div class="rank-avatar-big" style="background:#FAEEDA;">さ</div>
+        <div class="rank-name-big">さくら先生</div>
+        <div class="rank-dl-big">197 DL</div>
+      </div>
+      <div class="rank-card first">
+        <div class="rank-num-big" style="color:#EF9F27;">1位</div>
+        <div class="rank-avatar-big" style="background:#EAF3DE;">は</div>
+        <div class="rank-name-big">はな先生</div>
+        <div class="rank-dl-big">201 DL</div>
+      </div>
+      <div class="rank-card" style="margin-top:36px;">
+        <div class="rank-num-big" style="color:#D85A30;">3位</div>
+        <div class="rank-avatar-big" style="background:#EEEDFE;">た</div>
+        <div class="rank-name-big">田中たろう</div>
+        <div class="rank-dl-big">131 DL</div>
+      </div>
+    </div>
+    <div class="contrib-list">
+      <div class="contrib-row">
+        <div class="contrib-rank">4</div>
+        <div class="contrib-avatar" style="background:#FAECE7;">み</div>
+        <div style="flex:1;">
+          <div class="contrib-name">みどり</div>
+          <div class="contrib-tags"><span class="ctag">教案</span><span class="ctag">テンプレ</span></div>
+        </div>
+        <div class="contrib-stats"><div class="contrib-dl">76</div><div class="contrib-dl-label">DL数</div></div>
+      </div>
+      <div class="contrib-row">
+        <div class="contrib-rank">5</div>
+        <div class="contrib-avatar" style="background:#E1F5EE;">ゆ</div>
+        <div style="flex:1;">
+          <div class="contrib-name">ゆかり先生</div>
+          <div class="contrib-tags"><span class="ctag">絵カード</span><span class="ctag">AIイラスト</span></div>
+        </div>
+        <div class="contrib-stats"><div class="contrib-dl">44</div><div class="contrib-dl-label">DL数</div></div>
+      </div>
+    </div>
+    <div class="join-box">
+      <div style="font-size:14px;font-weight:500;color:#633806;margin-bottom:4px;">あなたも提供者になりませんか？</div>
+      <div style="font-size:13px;color:#854F0B;">自作の絵カード・教案・イラストを共有して、教師の卵を応援しよう</div>
+    </div>
+  </div>
+</div>
+
+<!-- モーダル -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-author" id="modalAuthor"></div>
+    <div class="modal-stats" id="modalStats"></div>
+    <button class="modal-dl-btn"><i class="ti ti-download" style="font-size:16px;"></i>無料でダウンロード</button>
+    <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('show')">閉じる</button>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-text">
+    ヒヨコ隊｜日本語教師の卵を応援する有志による素材置き場<br>
+    管理者：サトレン｜連絡先：hiyokotai.info@gmail.com<br>
+    掲載素材の著作権は各投稿者に帰属します。
+  </div>
+</footer>
+
+<script>
+const cards = [
+  {title:'あいさつカード（ひよこセット）',author:'さくら先生',dl:142,ai:true,cat:'あいさつ',bg:'#FFF8EE'},
+  {title:'動詞カード「たべます」',author:'田中たろう',dl:98,ai:false,cat:'動詞',bg:'#E1F5EE'},
+  {title:'初級教案テンプレート vol.1',author:'みどり',dl:76,ai:false,cat:'教案',bg:'#FAECE7'},
+  {title:'食べ物カード（肉・魚・野菜）',author:'はな先生',dl:201,ai:true,cat:'食べ物',bg:'#EEEDFE'},
+  {title:'感情カード「うれしい」',author:'さくら先生',dl:55,ai:false,cat:'絵カード',bg:'#FFF8EE'},
+  {title:'N5文型練習シート',author:'田中たろう',dl:33,ai:false,cat:'教案',bg:'#EAF3DE'},
+];
+
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function filterTag(el) {
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function openModal(i) {
+  const c = cards[i];
+  const imgs = document.querySelectorAll('.card-img');
+  const modalImg = document.getElementById('modalImg');
+  modalImg.style.background = c.bg;
+  modalImg.innerHTML = imgs[i].innerHTML;
+  document.getElementById('modalTitle').textContent = c.title + (c.ai ? '【AI生成】' : '');
+  document.getElementById('modalAuthor').innerHTML = c.author + 'のイラスト';
+  document.getElementById('modalStats').innerHTML =
+    '<span class="stat"><i class="ti ti-download" style="font-size:14px;"></i>' + c.dl + ' DL</span>' +
+    '<span class="stat"><i class="ti ti-tag" style="font-size:14px;"></i>' + c.cat + '</span>' +
+    (c.ai ? '<span class="stat" style="color:#27500A;"><i class="ti ti-sparkles" style="font-size:14px;"></i>AI生成</span>' : '');
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal(e) {
+  if(e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('show');
+  }
+}
+</script>
+</body>
+</html>
