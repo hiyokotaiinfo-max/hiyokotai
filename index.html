@@ -35,11 +35,21 @@ a{text-decoration:none;color:inherit;}
 .search-btn{padding:9px 20px;border-radius:99px;border:none;background:#EF9F27;color:#412402;font-size:14px;font-weight:500;cursor:pointer;}
 
 /* フィルター */
-.filter-row{max-width:900px;margin:1.25rem auto 0;padding:0 1.5rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-.filter-label{font-size:12px;color:#854F0B;}
-.tag{font-size:12px;padding:5px 14px;border-radius:99px;border:1px solid #F5C4B3;background:#FFFBF5;color:#633806;cursor:pointer;transition:background 0.15s;}
-.tag.active{background:#FAEEDA;border-color:#EF9F27;font-weight:500;}
+.filter-wrap{max-width:900px;margin:1rem auto 0;padding:0 1.5rem;}
+.filter-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.filter-label{font-size:12px;color:#854F0B;padding-top:6px;flex-shrink:0;}
+.sub-label{color:#B4B2A9;}
+.tags{display:flex;gap:6px;flex-wrap:wrap;}
+.sub-row{display:none;align-items:flex-start;gap:10px;margin-bottom:8px;padding-left:12px;border-left:2px solid #F5C4B3;}
+.sub-row.show{display:flex;}
+.tag{font-size:12px;padding:4px 12px;border-radius:99px;border:0.5px solid #F5C4B3;background:#FFFBF5;color:#633806;cursor:pointer;transition:background 0.15s;}
 .tag:hover{background:#FFF8EE;}
+.tag.active.cat-e{background:#FAEEDA;border-color:#EF9F27;color:#633806;font-weight:500;}
+.tag.active.cat-eai{background:#EAF3DE;border-color:#639922;color:#27500A;font-weight:500;}
+.tag.active.cat-p{background:#EEEDFE;border-color:#534AB7;color:#3C3489;font-weight:500;}
+.tag.active.cat-pai{background:#E1F5EE;border-color:#0F6E56;color:#085041;font-weight:500;}
+.tag.active.cat-sub{background:#FFF8EE;border-color:#EF9F27;font-weight:500;}
+.badge-ai{font-size:10px;padding:1px 6px;border-radius:99px;background:#EAF3DE;color:#27500A;margin-left:2px;vertical-align:middle;}
 
 /* メイン */
 .main{max-width:900px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:1fr 220px;gap:16px;align-items:start;}
@@ -172,15 +182,78 @@ a{text-decoration:none;color:inherit;}
     </div>
   </div>
 
-  <div class="filter-row">
-    <span class="filter-label">カテゴリ：</span>
-    <span class="tag active" onclick="filterTag(this)">すべて</span>
-    <span class="tag" onclick="filterTag(this)">絵カード</span>
-    <span class="tag" onclick="filterTag(this)">教案</span>
-    <span class="tag" onclick="filterTag(this)">食べ物</span>
-    <span class="tag" onclick="filterTag(this)">動詞</span>
-    <span class="tag" onclick="filterTag(this)">あいさつ</span>
-    <span class="tag" onclick="filterTag(this)">AIイラスト</span>
+  <div class="filter-wrap">
+
+    <div class="filter-row">
+      <span class="filter-label">カテゴリ：</span>
+      <div class="tags">
+        <span class="tag active cat-e" onclick="selectMain(this,'e')">絵カード</span>
+        <span class="tag cat-eai" onclick="selectMain(this,'eai')">絵カード <span class="badge-ai">AI</span></span>
+        <span class="tag cat-p" onclick="selectMain(this,'p')">教案</span>
+        <span class="tag cat-pai" onclick="selectMain(this,'pai')">教案 <span class="badge-ai">AI</span></span>
+      </div>
+    </div>
+
+    <div class="sub-row show" id="sub-e">
+      <span class="filter-label sub-label">種類：</span>
+      <div class="tags">
+        <span class="tag cat-sub active" onclick="selectSub(this)">すべて</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">食べ物</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">飲み物</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">動詞</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">あいさつ</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">その他</span>
+      </div>
+    </div>
+
+    <div class="sub-row" id="sub-eai">
+      <span class="filter-label sub-label">種類：</span>
+      <div class="tags">
+        <span class="tag cat-sub active" onclick="selectSub(this)">すべて</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">食べ物</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">飲み物</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">動詞</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">あいさつ</span>
+        <span class="tag cat-sub" onclick="selectSub(this)">その他</span>
+      </div>
+    </div>
+
+    <div class="sub-row" id="sub-p">
+      <span class="filter-label sub-label">教科書：</span>
+      <div class="tags">
+        <span class="tag cat-sub active" onclick="selectTextbook(this,'all')">すべて</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'mnn1')">みんなの日本語初級１</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'mnn2')">みんなの日本語初級２</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'dkj1')">できる日本語初級</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'dkj2')">できる日本語中級</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'tngu')">つなぐ日本語初級</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'other')">その他（自由入力）</span>
+      </div>
+    </div>
+
+    <div class="sub-row" id="sub-p-lesson">
+      <span class="filter-label sub-label">課：</span>
+      <div class="tags" id="lesson-tags"></div>
+    </div>
+
+    <div class="sub-row" id="sub-p-other">
+      <span class="filter-label sub-label">教科書名：</span>
+      <input type="text" placeholder="教科書名を入力..." style="font-size:13px;padding:4px 10px;border-radius:8px;border:0.5px solid #F5C4B3;background:#FFFBF5;color:#412402;width:200px;">
+    </div>
+
+    <div class="sub-row" id="sub-pai">
+      <span class="filter-label sub-label">教科書：</span>
+      <div class="tags">
+        <span class="tag cat-sub active" onclick="selectTextbook(this,'all')">すべて</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'mnn1')">みんなの日本語初級１</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'mnn2')">みんなの日本語初級２</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'dkj1')">できる日本語初級</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'dkj2')">できる日本語中級</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'tngu')">つなぐ日本語初級</span>
+        <span class="tag cat-sub" onclick="selectTextbook(this,'other')">その他（自由入力）</span>
+      </div>
+    </div>
+
   </div>
 
   <div class="main">
@@ -413,8 +486,48 @@ function showPage(id, btn) {
   window.scrollTo(0,0);
 }
 
-function filterTag(el) {
-  document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+const lessonCounts={mnn1:50,mnn2:50,dkj1:30,dkj2:30,tngu:30};
+let currentMain='e';
+
+function selectMain(el,cat){
+  document.querySelectorAll('.filter-row .tag').forEach(t=>t.classList.remove('active','cat-e','cat-eai','cat-p','cat-pai'));
+  el.classList.add('active','cat-'+cat);
+  currentMain=cat;
+  ['e','eai','p','pai'].forEach(c=>{
+    const r=document.getElementById('sub-'+c);
+    if(r) r.classList.toggle('show',c===cat);
+  });
+  const pl=document.getElementById('sub-p-lesson');
+  const po=document.getElementById('sub-p-other');
+  if(pl) pl.classList.remove('show');
+  if(po) po.classList.remove('show');
+  const firstSub=document.querySelector('#sub-'+cat+' .tag');
+  if(firstSub){document.querySelectorAll('#sub-'+cat+' .tag').forEach(t=>t.classList.remove('active'));firstSub.classList.add('active','cat-sub');}
+}
+
+function selectSub(el){
+  el.closest('.sub-row').querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function selectTextbook(el,tbKey){
+  el.closest('.sub-row').querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const lessonRow=document.getElementById('sub-p-lesson');
+  const otherRow=document.getElementById('sub-p-other');
+  if(tbKey==='other'){lessonRow.classList.remove('show');otherRow.classList.add('show');}
+  else if(tbKey==='all'){lessonRow.classList.remove('show');otherRow.classList.remove('show');}
+  else{
+    const count=lessonCounts[tbKey]||30;
+    const tags=document.getElementById('lesson-tags');
+    tags.innerHTML='<span class="tag cat-sub active" onclick="selectLesson(this)">すべての課</span>';
+    for(let i=1;i<=count;i++) tags.innerHTML+=`<span class="tag cat-sub" onclick="selectLesson(this)">第${i}課</span>`;
+    lessonRow.classList.add('show');otherRow.classList.remove('show');
+  }
+}
+
+function selectLesson(el){
+  document.getElementById('lesson-tags').querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
 }
 
