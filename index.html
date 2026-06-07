@@ -259,7 +259,7 @@ a{text-decoration:none;color:inherit;}
   <div class="main">
     <div>
       <div class="section-head">
-        <span class="section-title">素材一覧 <span style="font-size:12px;font-weight:400;color:#B4B2A9;">（1件）</span></span>
+        <span class="section-title">素材一覧 <span style="font-size:12px;font-weight:400;color:#B4B2A9;">（2件）</span></span>
         <select class="sort-select">
           <option>新着順</option>
           <option>人気順</option>
@@ -278,6 +278,21 @@ a{text-decoration:none;color:inherit;}
               <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
             </div>
             <a href="https://drive.google.com/file/d/1rLh-x7_QekA74JxqhNTSlhRkO0giopQN/view?usp=sharing" target="_blank" style="text-decoration:none;">
+              <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
+            </a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img" style="background:#EAF3DE;padding:0;overflow:hidden;">
+            <img src="https://drive.google.com/thumbnail?id=1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj&sz=w400" style="width:100%;display:block;" alt="お酒">
+          </div>
+          <div class="card-body">
+            <div class="card-title">お酒<span class="ai-badge">AI</span></div>
+            <div class="card-meta">
+              <div class="card-author"><div class="author-dot">さ</div>サトレン</div>
+              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
+            </div>
+            <a href="https://drive.google.com/file/d/1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj/view?usp=sharing" target="_blank" style="text-decoration:none;">
               <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
             </a>
           </div>
@@ -407,7 +422,8 @@ a{text-decoration:none;color:inherit;}
 
 <script>
 const cards = [
-  {title:'テスト用',author:'サトレン',dl:0,ai:true,cat:'AIイラスト',bg:'#EEEDFE'},
+  {title:'テスト用',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#EEEDFE'},
+  {title:'お酒',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#EAF3DE'},
 ];
 
 function showPage(id, btn) {
