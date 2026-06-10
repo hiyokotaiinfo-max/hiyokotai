@@ -9,8 +9,6 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:#FFFBF5;font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;color:#412402;}
 a{text-decoration:none;color:inherit;}
-
-/* ヘッダー */
 .header{background:#FFF8EE;border-bottom:0.5px solid #F5C4B3;padding:0 1.5rem;position:sticky;top:0;z-index:100;}
 .header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;}
 .logo{display:flex;align-items:center;gap:8px;cursor:pointer;}
@@ -20,12 +18,8 @@ a{text-decoration:none;color:inherit;}
 .nav{display:flex;gap:4px;}
 .nav-btn{font-size:13px;padding:6px 12px;border-radius:8px;border:none;background:transparent;color:#854F0B;cursor:pointer;transition:background 0.15s;}
 .nav-btn:hover,.nav-btn.active{background:#FAEEDA;font-weight:500;}
-
-/* ページ切替 */
 .page{display:none;}
 .page.show{display:block;}
-
-/* ヒーロー */
 .hero{background:#FFF8EE;padding:2.5rem 1.5rem 2rem;text-align:center;border-bottom:0.5px solid #F5C4B3;}
 .hero-title{font-size:24px;font-weight:600;color:#412402;margin-bottom:8px;}
 .hero-sub{font-size:14px;color:#854F0B;line-height:1.7;max-width:480px;margin:0 auto 1.25rem;}
@@ -33,8 +27,6 @@ a{text-decoration:none;color:inherit;}
 .search-wrap input{flex:1;padding:9px 16px;border-radius:99px;border:1px solid #F5C4B3;background:#FFFBF5;font-size:14px;color:#412402;outline:none;}
 .search-wrap input:focus{border-color:#EF9F27;}
 .search-btn{padding:9px 20px;border-radius:99px;border:none;background:#EF9F27;color:#412402;font-size:14px;font-weight:500;cursor:pointer;}
-
-/* フィルター */
 .filter-wrap{max-width:900px;margin:1rem auto 0;padding:0 1.5rem;}
 .filter-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
 .filter-label{font-size:12px;color:#854F0B;padding-top:6px;flex-shrink:0;}
@@ -50,14 +42,10 @@ a{text-decoration:none;color:inherit;}
 .tag.active.cat-pai{background:#E1F5EE;border-color:#0F6E56;color:#085041;font-weight:500;}
 .tag.active.cat-sub{background:#FFF8EE;border-color:#EF9F27;font-weight:500;}
 .badge-ai{font-size:10px;padding:1px 6px;border-radius:99px;background:#EAF3DE;color:#27500A;margin-left:2px;vertical-align:middle;}
-
-/* メイン */
 .main{max-width:900px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:1fr 220px;gap:16px;align-items:start;}
 .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
 .section-title{font-size:15px;font-weight:500;color:#412402;}
 .sort-select{font-size:12px;padding:5px 10px;border-radius:8px;border:0.5px solid #F5C4B3;background:#FFFBF5;color:#633806;}
-
-/* ギャラリー */
 .gallery{columns:3;gap:12px;}
 @media(max-width:600px){.gallery{columns:2;}.main{grid-template-columns:1fr;}}
 .card{break-inside:avoid;margin-bottom:12px;background:#fff;border:0.5px solid #F5C4B3;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s;}
@@ -72,8 +60,6 @@ a{text-decoration:none;color:inherit;}
 .dl-btn{width:100%;padding:7px;border-radius:8px;border:1px solid #F5C4B3;background:#FFF8EE;color:#633806;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:background 0.15s;}
 .dl-btn:hover{background:#FAEEDA;border-color:#EF9F27;}
 .ai-badge{font-size:10px;padding:2px 7px;border-radius:99px;background:#EAF3DE;color:#27500A;margin-left:4px;}
-
-/* サイドバー */
 .sidebar{}
 .side-card{background:#FFF8EE;border:0.5px solid #F5C4B3;border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px;}
 .side-title{font-size:13px;font-weight:500;color:#633806;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
@@ -81,14 +67,10 @@ a{text-decoration:none;color:inherit;}
 .rank-num{width:20px;font-weight:500;color:#EF9F27;text-align:center;flex-shrink:0;}
 .rank-name{flex:1;color:#412402;}
 .rank-dl{font-size:11px;color:#B4B2A9;}
-
-/* リクエストボックス */
 .req-box{background:#FFF8EE;border:1.5px dashed #F5C4B3;border-radius:12px;padding:1rem 1.25rem;margin-top:1rem;cursor:pointer;text-align:center;transition:border-color 0.15s;}
 .req-box:hover{border-color:#EF9F27;}
 .req-title{font-size:13px;font-weight:500;color:#633806;margin-bottom:4px;}
 .req-sub{font-size:12px;color:#854F0B;}
-
-/* モーダル */
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(65,36,2,0.4);z-index:200;align-items:center;justify-content:center;}
 .modal-overlay.show{display:flex;}
 .modal{background:#FFFBF5;border-radius:16px;border:0.5px solid #F5C4B3;padding:1.5rem;max-width:340px;width:90%;}
@@ -99,8 +81,6 @@ a{text-decoration:none;color:inherit;}
 .stat{font-size:12px;color:#854F0B;display:flex;align-items:center;gap:4px;}
 .modal-dl-btn{width:100%;padding:11px;border-radius:8px;border:none;background:#EF9F27;color:#412402;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;}
 .modal-close{width:100%;padding:8px;border-radius:8px;border:0.5px solid #F5C4B3;background:transparent;color:#854F0B;font-size:13px;cursor:pointer;}
-
-/* aboutページ */
 .about-wrap{max-width:720px;margin:0 auto;padding:2rem 1.5rem;}
 .about-hero{text-align:center;padding:2rem 0 2.5rem;}
 .chick{font-size:56px;margin-bottom:1rem;}
@@ -121,8 +101,6 @@ a{text-decoration:none;color:inherit;}
 .admin-note{font-size:11px;color:#B4B2A9;margin-top:4px;}
 .contact-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
 .contact-btn{font-size:12px;padding:5px 12px;border-radius:99px;border:0.5px solid #F5C4B3;background:#FFF8EE;color:#633806;cursor:pointer;}
-
-/* 提供者ページ */
 .contrib-wrap{max-width:760px;margin:0 auto;padding:2rem 1.5rem;}
 .contrib-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
 .contrib-title{font-size:18px;font-weight:500;color:#412402;}
@@ -146,14 +124,11 @@ a{text-decoration:none;color:inherit;}
 .contrib-dl-label{font-size:11px;color:#B4B2A9;}
 .join-box{background:#FFF8EE;border:1.5px dashed #F5C4B3;border-radius:12px;padding:1.25rem;margin-top:1.5rem;text-align:center;cursor:pointer;transition:border-color 0.15s;}
 .join-box:hover{border-color:#EF9F27;}
-
-/* フッター */
 .footer{background:#FFF8EE;border-top:0.5px solid #F5C4B3;padding:1.5rem;text-align:center;margin-top:3rem;}
 .footer-text{font-size:12px;color:#B4B2A9;line-height:1.8;}
 </style>
 </head>
 <body>
-
 <div class="header">
   <div class="header-inner">
     <div class="logo" onclick="showPage('top')">
@@ -183,7 +158,6 @@ a{text-decoration:none;color:inherit;}
   </div>
 
   <div class="filter-wrap">
-
     <div class="filter-row">
       <span class="filter-label">カテゴリ：</span>
       <div class="tags">
@@ -193,7 +167,6 @@ a{text-decoration:none;color:inherit;}
         <span class="tag cat-pai" onclick="selectMain(this,'pai')">教案 <span class="badge-ai">AI</span></span>
       </div>
     </div>
-
     <div class="sub-row show" id="sub-e">
       <span class="filter-label sub-label">種類：</span>
       <div class="tags">
@@ -205,7 +178,6 @@ a{text-decoration:none;color:inherit;}
         <span class="tag cat-sub" onclick="selectSub(this)">その他</span>
       </div>
     </div>
-
     <div class="sub-row" id="sub-eai">
       <span class="filter-label sub-label">種類：</span>
       <div class="tags">
@@ -217,7 +189,6 @@ a{text-decoration:none;color:inherit;}
         <span class="tag cat-sub" onclick="selectSub(this)">その他</span>
       </div>
     </div>
-
     <div class="sub-row" id="sub-p">
       <span class="filter-label sub-label">教科書：</span>
       <div class="tags">
@@ -230,17 +201,14 @@ a{text-decoration:none;color:inherit;}
         <span class="tag cat-sub" onclick="selectTextbook(this,'other')">その他（自由入力）</span>
       </div>
     </div>
-
     <div class="sub-row" id="sub-p-lesson">
       <span class="filter-label sub-label">課：</span>
       <div class="tags" id="lesson-tags"></div>
     </div>
-
     <div class="sub-row" id="sub-p-other">
       <span class="filter-label sub-label">教科書名：</span>
       <input type="text" placeholder="教科書名を入力..." style="font-size:13px;padding:4px 10px;border-radius:8px;border:0.5px solid #F5C4B3;background:#FFFBF5;color:#412402;width:200px;">
     </div>
-
     <div class="sub-row" id="sub-pai">
       <span class="filter-label sub-label">教科書：</span>
       <div class="tags">
@@ -253,7 +221,6 @@ a{text-decoration:none;color:inherit;}
         <span class="tag cat-sub" onclick="selectTextbook(this,'other')">その他（自由入力）</span>
       </div>
     </div>
-
   </div>
 
   <div class="main">
@@ -275,11 +242,9 @@ a{text-decoration:none;color:inherit;}
             <div class="card-title">テスト用<span class="ai-badge">AI</span></div>
             <div class="card-meta">
               <div class="card-author"><div class="author-dot">さ</div>サトレン</div>
-              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
+              <div class="card-dl" id="dl-1rLh-x7_QekA74JxqhNTSlhRkO0giopQN"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
             </div>
-            <a href="https://drive.google.com/file/d/1rLh-x7_QekA74JxqhNTSlhRkO0giopQN/view?usp=sharing" target="_blank" style="text-decoration:none;">
-              <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
-            </a>
+            <button class="dl-btn" onclick="handleDownload('1rLh-x7_QekA74JxqhNTSlhRkO0giopQN')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
           </div>
         </div>
         <div class="card">
@@ -290,11 +255,9 @@ a{text-decoration:none;color:inherit;}
             <div class="card-title">お酒<span class="ai-badge">AI</span></div>
             <div class="card-meta">
               <div class="card-author"><div class="author-dot">さ</div>サトレン</div>
-              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
+              <div class="card-dl" id="dl-1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
             </div>
-            <a href="https://drive.google.com/file/d/1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj/view?usp=sharing" target="_blank" style="text-decoration:none;">
-              <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
-            </a>
+            <button class="dl-btn" onclick="handleDownload('1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
           </div>
         </div>
         <div class="card">
@@ -305,11 +268,9 @@ a{text-decoration:none;color:inherit;}
             <div class="card-title">食べ物<span class="ai-badge">AI</span></div>
             <div class="card-meta">
               <div class="card-author"><div class="author-dot">さ</div>サトレン</div>
-              <div class="card-dl"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
+              <div class="card-dl" id="dl-1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
             </div>
-            <a href="https://drive.google.com/file/d/1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz/view?usp=sharing" target="_blank" style="text-decoration:none;">
-              <button class="dl-btn"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
-            </a>
+            <button class="dl-btn" onclick="handleDownload('1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
           </div>
         </div>
       </div>
@@ -325,7 +286,6 @@ a{text-decoration:none;color:inherit;}
         <div class="side-title"><i class="ti ti-award" style="font-size:16px;color:#EF9F27;"></i>人気の投稿者</div>
         <div class="rank-row"><span class="rank-num">1</span><span class="rank-name">サトレン</span><span class="rank-dl">0DL</span></div>
       </div>
-
     </div>
   </div>
 </div>
@@ -422,7 +382,7 @@ a{text-decoration:none;color:inherit;}
     <div class="modal-title" id="modalTitle"></div>
     <div class="modal-author" id="modalAuthor"></div>
     <div class="modal-stats" id="modalStats"></div>
-    <button class="modal-dl-btn"><i class="ti ti-download" style="font-size:16px;"></i>無料でダウンロード</button>
+    <button class="modal-dl-btn" id="modalDlBtn"><i class="ti ti-download" style="font-size:16px;"></i>無料でダウンロード</button>
     <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('show')">閉じる</button>
   </div>
 </div>
@@ -436,9 +396,36 @@ a{text-decoration:none;color:inherit;}
 </footer>
 
 <script>
+// ===================================
+// Apps Script エンドポイント
+// ===================================
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxtYmTgo90NYs3y7_TPidVDFdplcrBS0hyHbW9l46UrsFj0UFEzpyL9X8_djbxx7DP3/exec';
+
+// ===================================
+// ダウンロード処理（カウント送信 → ファイルを開く）
+// ===================================
+function handleDownload(fileId) {
+  // カウントをApps Scriptに送信（失敗してもダウンロードは続行）
+  fetch(GAS_URL + '?fileId=' + fileId)
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        const dlEl = document.getElementById('dl-' + fileId);
+        if (dlEl) {
+          dlEl.innerHTML = '<i class="ti ti-download" style="font-size:12px;"></i>' + data.count;
+        }
+      }
+    })
+    .catch(() => {});
+
+  // Googleドライブを開く
+  window.open('https://drive.google.com/file/d/' + fileId + '/view?usp=sharing', '_blank');
+}
+
 const cards = [
-  {title:'テスト用',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#EEEDFE'},
-  {title:'お酒',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#EAF3DE'},
+  {title:'テスト用',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#FAEEDA',fileId:'1rLh-x7_QekA74JxqhNTSlhRkO0giopQN'},
+  {title:'お酒',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#EAF3DE',fileId:'1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj'},
+  {title:'食べ物',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#FAEEDA',fileId:'1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz'}
 ];
 
 function showPage(id, btn) {
@@ -506,6 +493,7 @@ function openModal(i) {
     '<span class="stat"><i class="ti ti-download" style="font-size:14px;"></i>' + c.dl + ' DL</span>' +
     '<span class="stat"><i class="ti ti-tag" style="font-size:14px;"></i>' + c.cat + '</span>' +
     (c.ai ? '<span class="stat" style="color:#27500A;"><i class="ti ti-sparkles" style="font-size:14px;"></i>AI生成</span>' : '');
+  document.getElementById('modalDlBtn').onclick = function() { handleDownload(c.fileId); };
   document.getElementById('modalOverlay').classList.add('show');
 }
 
