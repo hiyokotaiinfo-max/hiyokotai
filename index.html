@@ -273,6 +273,20 @@ a{text-decoration:none;color:inherit;}
             <button class="dl-btn" onclick="handleDownload('1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
           </div>
         </div>
+        <!-- 新規追加：学校の道具 -->
+        <div class="card">
+          <div class="card-img" style="background:#EAF3DE;padding:0;overflow:hidden;">
+            <img src="https://drive.google.com/thumbnail?id=1cELDW4P_F1oZpDV9NCuGlMxERSrvbEbW&sz=w400" style="width:100%;display:block;" alt="学校の道具">
+          </div>
+          <div class="card-body">
+            <div class="card-title">学校の道具<span class="ai-badge">AI</span></div>
+            <div class="card-meta">
+              <div class="card-author"><div class="author-dot">さ</div>サトレン</div>
+              <div class="card-dl" id="dl-1cELDW4P_F1oZpDV9NCuGlMxERSrvbEbW"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
+            </div>
+            <button class="dl-btn" onclick="handleDownload('1cELDW4P_F1oZpDV9NCuGlMxERSrvbEbW')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
+          </div>
+        </div>
       </div>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSfDlD_hMHKsNmgapIkwfwFmVtDQsQBEb6Z7_9u8ieZS3BZJsA/viewform?usp=header" target="_blank" style="text-decoration:none;">
         <div class="req-box">
@@ -405,7 +419,6 @@ const GAS_URL = 'https://script.google.com/macros/s/AKfycbxtYmTgo90NYs3y7_TPidVD
 // ダウンロード処理（カウント送信 → ファイルを開く）
 // ===================================
 function handleDownload(fileId) {
-  // カウントをApps Scriptに送信（失敗してもダウンロードは続行）
   fetch(GAS_URL + '?fileId=' + fileId)
     .then(res => res.json())
     .then(data => {
@@ -418,15 +431,14 @@ function handleDownload(fileId) {
     })
     .catch(() => {});
 
-  // Googleドライブを開く
   window.open('https://drive.google.com/file/d/' + fileId + '/view?usp=sharing', '_blank');
 }
 
 const cards = [
-  {title:'テスト用',author:'サトレン',dl:1,ai:true,cat:'AIイラスト',bg:'#EAF3DE',fileId:'1rLh-x7_QekA74JxqhNTSlhRkO0giopQN'},
-  {title:'お酒',author:'サトレン',dl:1,ai:true,cat:'AIイラスト',bg:'#EAF3DE',fileId:'1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj'},
-  {title:'食べ物',author:'サトレン',dl:0,ai:true,cat:'絵カード（AI生成）',bg:'#FAEEDA',fileId:'1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz'},
-  {title:'学校の道具',author:'サトレン',dl:0,ai:true,cat:'絵カード（AI生成）',bg:'#FAEEDA',fileId:'1cELDW4P_F1oZpDV9NCuGlMxERSrvbEbW'}
+  {title:'テスト用',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#FAEEDA',fileId:'1rLh-x7_QekA74JxqhNTSlhRkO0giopQN'},
+  {title:'お酒',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#EAF3DE',fileId:'1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj'},
+  {title:'食べ物',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#FAEEDA',fileId:'1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz'},
+  {title:'学校の道具',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#EAF3DE',fileId:'1cELDW4P_F1oZpDV9NCuGlMxERSrvbEbW'}
 ];
 
 function showPage(id, btn) {
