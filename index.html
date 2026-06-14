@@ -75,13 +75,15 @@ a{text-decoration:none;color:inherit;}
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(65,36,2,0.4);z-index:200;align-items:center;justify-content:center;}
 .modal-overlay.show{display:flex;}
 .modal{background:#FFFBF5;border-radius:16px;border:0.5px solid #F5C4B3;padding:1.5rem;max-width:340px;width:90%;}
-.modal-img{width:100%;border-radius:8px;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+.modal-img{width:100%;aspect-ratio:1/1;border-radius:8px;margin-bottom:1rem;overflow:hidden;}
+.modal-img img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
 .modal-title{font-size:16px;font-weight:500;color:#412402;margin-bottom:6px;}
 .modal-author{font-size:13px;color:#854F0B;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 .modal-stats{display:flex;gap:12px;margin-bottom:1.25rem;}
 .stat{font-size:12px;color:#854F0B;display:flex;align-items:center;gap:4px;}
 .modal-dl-btn{width:100%;padding:11px;border-radius:8px;border:none;background:#EF9F27;color:#412402;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;}
 .modal-close{width:100%;padding:8px;border-radius:8px;border:0.5px solid #F5C4B3;background:transparent;color:#854F0B;font-size:13px;cursor:pointer;}
+.loading{text-align:center;padding:3rem;color:#B4B2A9;font-size:14px;}
 .about-wrap{max-width:720px;margin:0 auto;padding:2rem 1.5rem;}
 .about-hero{text-align:center;padding:2rem 0 2.5rem;}
 .chick{font-size:56px;margin-bottom:1rem;}
@@ -153,8 +155,8 @@ a{text-decoration:none;color:inherit;}
     <div class="hero-title">日本語教師の卵を、みんなで応援しよう</div>
     <div class="hero-sub">絵カード・教案・イラストを無料で共有。有志による素材置き場です。</div>
     <div class="search-wrap">
-      <input type="text" placeholder="例：食べ物、動詞、あいさつ...">
-      <button class="search-btn">検索</button>
+      <input type="text" id="searchInput" placeholder="例：食べ物、動詞、あいさつ..." oninput="renderGallery()">
+      <button class="search-btn" onclick="renderGallery()">検索</button>
     </div>
   </div>
 
@@ -227,67 +229,14 @@ a{text-decoration:none;color:inherit;}
   <div class="main">
     <div>
       <div class="section-head">
-        <span class="section-title">素材一覧 <span style="font-size:12px;font-weight:400;color:#B4B2A9;">（4件）</span></span>
-        <select class="sort-select">
-          <option>新着順</option>
-          <option>人気順</option>
-          <option>ダウンロード数順</option>
+        <span class="section-title">素材一覧 <span id="cardCount" style="font-size:12px;font-weight:400;color:#B4B2A9;">（読み込み中...）</span></span>
+        <select class="sort-select" id="sortSelect" onchange="renderGallery()">
+          <option value="new">新着順</option>
+          <option value="dl">ダウンロード数順</option>
         </select>
       </div>
-      <div class="gallery">
-        <div class="card">
-          <div class="card-img" style="background:#FAEEDA;padding:0;overflow:hidden;">
-            <img src="https://drive.google.com/thumbnail?id=1rLh-x7_QekA74JxqhNTSlhRkO0giopQN&sz=w400" style="width:100%;display:block;" alt="テスト用">
-          </div>
-          <div class="card-body">
-            <div class="card-title">テスト用<span class="ai-badge">AI</span></div>
-            <div class="card-meta">
-              <div class="card-author"><div class="author-dot">さ</div>サトレン</div>
-              <div class="card-dl" id="dl-1rLh-x7_QekA74JxqhNTSlhRkO0giopQN"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
-            </div>
-            <button class="dl-btn" onclick="handleDownload('1rLh-x7_QekA74JxqhNTSlhRkO0giopQN')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-img" style="background:#FAEEDA;padding:0;overflow:hidden;">
-            <img src="https://drive.google.com/thumbnail?id=1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj&sz=w400" style="width:100%;display:block;" alt="お酒">
-          </div>
-          <div class="card-body">
-            <div class="card-title">お酒<span class="ai-badge">AI</span></div>
-            <div class="card-meta">
-              <div class="card-author"><div class="author-dot">さ</div>サトレン</div>
-              <div class="card-dl" id="dl-1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
-            </div>
-            <button class="dl-btn" onclick="handleDownload('1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-img" style="background:#FAEEDA;padding:0;overflow:hidden;">
-            <img src="https://drive.google.com/thumbnail?id=1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz&sz=w400" style="width:100%;display:block;" alt="食べ物">
-          </div>
-          <div class="card-body">
-            <div class="card-title">食べ物<span class="ai-badge">AI</span></div>
-            <div class="card-meta">
-              <div class="card-author"><div class="author-dot">さ</div>サトレン</div>
-              <div class="card-dl" id="dl-1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
-            </div>
-            <button class="dl-btn" onclick="handleDownload('1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
-          </div>
-        </div>
-        <!-- 新規追加：学校の道具 -->
-        <div class="card">
-          <div class="card-img" style="background:#EAF3DE;padding:0;overflow:hidden;">
-            <img src="https://drive.google.com/thumbnail?id=1cELDW4P_F1oZpDV9NCuGlMxERSrvbEbW&sz=w400" style="width:100%;display:block;" alt="学校の道具">
-          </div>
-          <div class="card-body">
-            <div class="card-title">学校の道具<span class="ai-badge">AI</span></div>
-            <div class="card-meta">
-              <div class="card-author"><div class="author-dot">さ</div>サトレン</div>
-              <div class="card-dl" id="dl-1cELDW4P_F1oZpDV9NCuGlMxERSrvbEbW"><i class="ti ti-download" style="font-size:12px;"></i>0</div>
-            </div>
-            <button class="dl-btn" onclick="handleDownload('1cELDW4P_F1oZpDV9NCuGlMxERSrvbEbW')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>
-          </div>
-        </div>
+      <div class="gallery" id="gallery">
+        <div class="loading">🐣 素材を読み込み中...</div>
       </div>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSfDlD_hMHKsNmgapIkwfwFmVtDQsQBEb6Z7_9u8ieZS3BZJsA/viewform?usp=header" target="_blank" style="text-decoration:none;">
         <div class="req-box">
@@ -299,7 +248,7 @@ a{text-decoration:none;color:inherit;}
     <div class="sidebar">
       <div class="side-card">
         <div class="side-title"><i class="ti ti-award" style="font-size:16px;color:#EF9F27;"></i>人気の投稿者</div>
-        <div class="rank-row"><span class="rank-num">1</span><span class="rank-name">サトレン</span><span class="rank-dl">0DL</span></div>
+        <div id="sideRanking"><div style="font-size:12px;color:#B4B2A9;">読み込み中...</div></div>
       </div>
     </div>
   </div>
@@ -356,31 +305,8 @@ a{text-decoration:none;color:inherit;}
   <div class="contrib-wrap">
     <div class="contrib-head">
       <div class="contrib-title">提供者一覧</div>
-      <select class="period-select">
-        <option>累計ランキング</option>
-        <option>今月のランキング</option>
-        <option>新着順</option>
-      </select>
     </div>
-    <div class="ranking-top" style="grid-template-columns:1fr;">
-      <div class="rank-card first" style="max-width:200px;margin:0 auto;">
-        <div class="rank-num-big" style="color:#EF9F27;">1位</div>
-        <div class="rank-avatar-big" style="background:#FAEEDA;">さ</div>
-        <div class="rank-name-big">サトレン</div>
-        <div class="rank-dl-big">0 DL</div>
-      </div>
-    </div>
-    <div class="contrib-list">
-      <div class="contrib-row">
-        <div class="contrib-rank">1</div>
-        <div class="contrib-avatar" style="background:#FAEEDA;">さ</div>
-        <div style="flex:1;">
-          <div class="contrib-name">サトレン</div>
-          <div class="contrib-tags"><span class="ctag">AIイラスト</span></div>
-        </div>
-        <div class="contrib-stats"><div class="contrib-dl">0</div><div class="contrib-dl-label">DL数</div></div>
-      </div>
-    </div>
+    <div id="contribList"><div class="loading">🐣 読み込み中...</div></div>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfDlD_hMHKsNmgapIkwfwFmVtDQsQBEb6Z7_9u8ieZS3BZJsA/viewform?usp=header" target="_blank" style="text-decoration:none;">
       <div class="join-box">
         <div style="font-size:14px;font-weight:500;color:#633806;margin-bottom:4px;">あなたも提供者になりませんか？</div>
@@ -411,110 +337,244 @@ a{text-decoration:none;color:inherit;}
 </footer>
 
 <script>
-// ===================================
-// Apps Script エンドポイント
-// ===================================
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxtYmTgo90NYs3y7_TPidVDFdplcrBS0hyHbW9l46UrsFj0UFEzpyL9X8_djbxx7DP3/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycby5fhMe4njf5GZ7GzAH0WCxaoDkCOzLCs9qlbw9MV6_QRNs67uf68frnGNJ_pqXAGEb/exec';
+
+let allCards = [];
+let currentModal = null;
 
 // ===================================
-// ダウンロード処理（カウント送信 → ファイルを開く）
+// 起動時にデータ取得
+// ===================================
+window.addEventListener('DOMContentLoaded', () => {
+  fetch(GAS_URL + '?action=getCards')
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        allCards = data.cards;
+        renderGallery();
+        renderContrib();
+        renderSideRanking();
+      }
+    })
+    .catch(() => {
+      document.getElementById('gallery').innerHTML = '<div class="loading">⚠️ 読み込みに失敗しました</div>';
+    });
+});
+
+// ===================================
+// ギャラリー描画
+// ===================================
+function renderGallery() {
+  const query = (document.getElementById('searchInput').value || '').trim();
+  const sort  = document.getElementById('sortSelect').value;
+
+  let cards = allCards.filter(c => {
+    if (!query) return true;
+    return c.title.includes(query) || c.handle.includes(query) || c.category.includes(query);
+  });
+
+  if (sort === 'dl') {
+    cards = cards.slice().sort((a, b) => b.dlCount - a.dlCount);
+  }
+
+  document.getElementById('cardCount').textContent = '（' + cards.length + '件）';
+
+  if (cards.length === 0) {
+    document.getElementById('gallery').innerHTML = '<div class="loading">素材が見つかりませんでした</div>';
+    return;
+  }
+
+  document.getElementById('gallery').innerHTML = cards.map((c, i) => {
+    const bg      = getBgColor(c.category);
+    const initial = c.handle ? c.handle[0] : '?';
+    const aiBadge = c.isAI ? '<span class="ai-badge">AI</span>' : '';
+    const imgUrl  = c.fileId ? 'https://drive.google.com/thumbnail?id=' + c.fileId + '&sz=w400' : '';
+    return (
+      '<div class="card" onclick="openModal(' + i + ')">' +
+        '<div class="card-img" style="background:' + bg + ';">' +
+          '<img src="' + imgUrl + '" alt="' + c.title + '" loading="lazy">' +
+        '</div>' +
+        '<div class="card-body">' +
+          '<div class="card-title">' + c.title + aiBadge + '</div>' +
+          '<div class="card-meta">' +
+            '<div class="card-author"><div class="author-dot">' + initial + '</div>' + c.handle + '</div>' +
+            '<div class="card-dl" id="dl-' + c.fileId + '"><i class="ti ti-download" style="font-size:12px;"></i>' + c.dlCount + '</div>' +
+          '</div>' +
+          '<button class="dl-btn" onclick="event.stopPropagation();handleDownload(\'' + c.fileId + '\')"><i class="ti ti-download" style="font-size:14px;"></i>ダウンロード</button>' +
+        '</div>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+// ===================================
+// 提供者一覧描画
+// ===================================
+function renderContrib() {
+  const dlMap = {};
+  allCards.forEach(c => {
+    dlMap[c.handle] = (dlMap[c.handle] || 0) + c.dlCount;
+  });
+
+  const sorted = Object.entries(dlMap).sort((a, b) => b[1] - a[1]);
+
+  if (sorted.length === 0) {
+    document.getElementById('contribList').innerHTML = '<div class="loading">提供者がいません</div>';
+    return;
+  }
+
+  const topHtml = sorted.slice(0, 1).map(([name, dl]) => `
+    <div class="ranking-top" style="grid-template-columns:1fr;">
+      <div class="rank-card first" style="max-width:200px;margin:0 auto;">
+        <div class="rank-num-big" style="color:#EF9F27;">1位</div>
+        <div class="rank-avatar-big" style="background:#FAEEDA;">${name[0]}</div>
+        <div class="rank-name-big">${name}</div>
+        <div class="rank-dl-big">${dl} DL</div>
+      </div>
+    </div>
+  `).join('');
+
+  const listHtml = '<div class="contrib-list">' + sorted.map(([name, dl], i) => `
+    <div class="contrib-row">
+      <div class="contrib-rank">${i + 1}</div>
+      <div class="contrib-avatar" style="background:#FAEEDA;">${name[0]}</div>
+      <div style="flex:1;">
+        <div class="contrib-name">${name}</div>
+      </div>
+      <div class="contrib-stats">
+        <div class="contrib-dl">${dl}</div>
+        <div class="contrib-dl-label">DL数</div>
+      </div>
+    </div>
+  `).join('') + '</div>';
+
+  document.getElementById('contribList').innerHTML = topHtml + listHtml;
+}
+
+// ===================================
+// サイドバーランキング描画
+// ===================================
+function renderSideRanking() {
+  const dlMap = {};
+  allCards.forEach(c => {
+    dlMap[c.handle] = (dlMap[c.handle] || 0) + c.dlCount;
+  });
+  const sorted = Object.entries(dlMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  document.getElementById('sideRanking').innerHTML = sorted.map(([name, dl], i) =>
+    '<div class="rank-row"><span class="rank-num">' + (i+1) + '</span><span class="rank-name">' + name + '</span><span class="rank-dl">' + dl + 'DL</span></div>'
+  ).join('');
+}
+
+// ===================================
+// ダウンロード処理
 // ===================================
 function handleDownload(fileId) {
   fetch(GAS_URL + '?fileId=' + fileId)
     .then(res => res.json())
     .then(data => {
       if (data.status === 'ok') {
+        const card = allCards.find(c => c.fileId === fileId);
+        if (card) card.dlCount = data.count;
         const dlEl = document.getElementById('dl-' + fileId);
-        if (dlEl) {
-          dlEl.innerHTML = '<i class="ti ti-download" style="font-size:12px;"></i>' + data.count;
-        }
+        if (dlEl) dlEl.innerHTML = '<i class="ti ti-download" style="font-size:12px;"></i>' + data.count;
+        renderSideRanking();
       }
     })
     .catch(() => {});
-
   window.open('https://drive.google.com/file/d/' + fileId + '/view?usp=sharing', '_blank');
 }
 
-const cards = [
-  {title:'テスト用',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#FAEEDA',fileId:'1rLh-x7_QekA74JxqhNTSlhRkO0giopQN'},
-  {title:'お酒',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#EAF3DE',fileId:'1eQeHuhkz3WZGU-M6nWhzR4MXmdNeM0Lj'},
-  {title:'食べ物',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#FAEEDA',fileId:'1dieCEhoCOBHY9DKsTRp1ZdrCmqR8NtAz'},
-  {title:'学校の道具',author:'サトレン',dl:0,ai:true,cat:'絵カードAI',bg:'#EAF3DE',fileId:'1cELDW4P_F1oZpDV9NCuGlMxERSrvbEbW'}
-];
-
-function showPage(id, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
-  document.getElementById(id).classList.add('show');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  window.scrollTo(0,0);
-}
-
-const lessonCounts={mnn1:50,mnn2:50,dkj1:30,dkj2:30,tngu:30};
-let currentMain='e';
-
-function selectMain(el,cat){
-  document.querySelectorAll('.filter-row .tag').forEach(t=>t.classList.remove('active','cat-e','cat-eai','cat-p','cat-pai'));
-  el.classList.add('active','cat-'+cat);
-  currentMain=cat;
-  ['e','eai','p','pai'].forEach(c=>{
-    const r=document.getElementById('sub-'+c);
-    if(r) r.classList.toggle('show',c===cat);
-  });
-  const pl=document.getElementById('sub-p-lesson');
-  const po=document.getElementById('sub-p-other');
-  if(pl) pl.classList.remove('show');
-  if(po) po.classList.remove('show');
-  const firstSub=document.querySelector('#sub-'+cat+' .tag');
-  if(firstSub){document.querySelectorAll('#sub-'+cat+' .tag').forEach(t=>t.classList.remove('active'));firstSub.classList.add('active','cat-sub');}
-}
-
-function selectSub(el){
-  el.closest('.sub-row').querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-}
-
-function selectTextbook(el,tbKey){
-  el.closest('.sub-row').querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  const lessonRow=document.getElementById('sub-p-lesson');
-  const otherRow=document.getElementById('sub-p-other');
-  if(tbKey==='other'){lessonRow.classList.remove('show');otherRow.classList.add('show');}
-  else if(tbKey==='all'){lessonRow.classList.remove('show');otherRow.classList.remove('show');}
-  else{
-    const count=lessonCounts[tbKey]||30;
-    const tags=document.getElementById('lesson-tags');
-    tags.innerHTML='<span class="tag cat-sub active" onclick="selectLesson(this)">すべての課</span>';
-    for(let i=1;i<=count;i++) tags.innerHTML+=`<span class="tag cat-sub" onclick="selectLesson(this)">第${i}課</span>`;
-    lessonRow.classList.add('show');otherRow.classList.remove('show');
-  }
-}
-
-function selectLesson(el){
-  document.getElementById('lesson-tags').querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-}
-
+// ===================================
+// モーダル
+// ===================================
 function openModal(i) {
+  const cards = allCards;
   const c = cards[i];
-  const imgs = document.querySelectorAll('.card-img');
-  const modalImg = document.getElementById('modalImg');
-  modalImg.style.background = c.bg;
-  modalImg.innerHTML = imgs[i].innerHTML;
-  document.getElementById('modalTitle').textContent = c.title + (c.ai ? '【AI生成】' : '');
-  document.getElementById('modalAuthor').innerHTML = c.author + 'のイラスト';
+  currentModal = c;
+  const bg = getBgColor(c.category);
+  const imgUrl = c.fileId ? 'https://drive.google.com/thumbnail?id=' + c.fileId + '&sz=w400' : '';
+  document.getElementById('modalImg').innerHTML = '<img src="' + imgUrl + '" alt="' + c.title + '" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">';
+  document.getElementById('modalTitle').textContent = c.title + (c.isAI ? '【AI生成】' : '');
+  document.getElementById('modalAuthor').innerHTML = c.handle + 'のイラスト';
   document.getElementById('modalStats').innerHTML =
-    '<span class="stat"><i class="ti ti-download" style="font-size:14px;"></i>' + c.dl + ' DL</span>' +
-    '<span class="stat"><i class="ti ti-tag" style="font-size:14px;"></i>' + c.cat + '</span>' +
-    (c.ai ? '<span class="stat" style="color:#27500A;"><i class="ti ti-sparkles" style="font-size:14px;"></i>AI生成</span>' : '');
+    '<span class="stat"><i class="ti ti-download" style="font-size:14px;"></i>' + c.dlCount + ' DL</span>' +
+    '<span class="stat"><i class="ti ti-tag" style="font-size:14px;"></i>' + c.category + '</span>' +
+    (c.isAI ? '<span class="stat" style="color:#27500A;"><i class="ti ti-sparkles" style="font-size:14px;"></i>AI生成</span>' : '');
   document.getElementById('modalDlBtn').onclick = function() { handleDownload(c.fileId); };
   document.getElementById('modalOverlay').classList.add('show');
 }
 
 function closeModal(e) {
-  if(e.target === document.getElementById('modalOverlay')) {
+  if (e.target === document.getElementById('modalOverlay')) {
     document.getElementById('modalOverlay').classList.remove('show');
   }
+}
+
+// ===================================
+// フィルター
+// ===================================
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+const lessonCounts = {mnn1:50,mnn2:50,dkj1:30,dkj2:30,tngu:30};
+let currentMain = 'e';
+
+function selectMain(el, cat) {
+  document.querySelectorAll('.filter-row .tag').forEach(t => t.classList.remove('active','cat-e','cat-eai','cat-p','cat-pai'));
+  el.classList.add('active','cat-'+cat);
+  currentMain = cat;
+  ['e','eai','p','pai'].forEach(c => {
+    const r = document.getElementById('sub-'+c);
+    if (r) r.classList.toggle('show', c === cat);
+  });
+  const pl = document.getElementById('sub-p-lesson');
+  const po = document.getElementById('sub-p-other');
+  if (pl) pl.classList.remove('show');
+  if (po) po.classList.remove('show');
+  const firstSub = document.querySelector('#sub-'+cat+' .tag');
+  if (firstSub) {
+    document.querySelectorAll('#sub-'+cat+' .tag').forEach(t => t.classList.remove('active'));
+    firstSub.classList.add('active','cat-sub');
+  }
+  renderGallery();
+}
+
+function selectSub(el) {
+  el.closest('.sub-row').querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderGallery();
+}
+
+function selectTextbook(el, tbKey) {
+  el.closest('.sub-row').querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const lessonRow = document.getElementById('sub-p-lesson');
+  const otherRow  = document.getElementById('sub-p-other');
+  if (tbKey === 'other') { lessonRow.classList.remove('show'); otherRow.classList.add('show'); }
+  else if (tbKey === 'all') { lessonRow.classList.remove('show'); otherRow.classList.remove('show'); }
+  else {
+    const count = lessonCounts[tbKey] || 30;
+    const tags = document.getElementById('lesson-tags');
+    tags.innerHTML = '<span class="tag cat-sub active" onclick="selectLesson(this)">すべての課</span>';
+    for (let i = 1; i <= count; i++) tags.innerHTML += '<span class="tag cat-sub" onclick="selectLesson(this)">第'+i+'課</span>';
+    lessonRow.classList.add('show'); otherRow.classList.remove('show');
+  }
+}
+
+function selectLesson(el) {
+  document.getElementById('lesson-tags').querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function getBgColor(category) {
+  if (category && category.indexOf('絵カード') !== -1) return '#FAEEDA';
+  if (category && category.indexOf('教案') !== -1) return '#EEEDFE';
+  return '#EAF3DE';
 }
 </script>
 </body>
