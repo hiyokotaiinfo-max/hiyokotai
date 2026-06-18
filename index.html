@@ -107,7 +107,6 @@ a{text-decoration:none;color:inherit;}
 .contrib-wrap{max-width:760px;margin:0 auto;padding:2rem 1.5rem;}
 .contrib-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
 .contrib-title{font-size:18px;font-weight:500;color:#412402;}
-.period-select{font-size:12px;padding:5px 10px;border-radius:8px;border:0.5px solid #F5C4B3;background:#FFFBF5;color:#633806;}
 .ranking-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:1.5rem;align-items:end;}
 .rank-card{background:#fff;border:0.5px solid #F5C4B3;border-radius:12px;padding:1rem;text-align:center;}
 .rank-card.first{border-color:#EF9F27;border-width:1.5px;}
@@ -149,7 +148,6 @@ a{text-decoration:none;color:inherit;}
   </div>
 </div>
 
-<!-- 素材一覧ページ -->
 <div class="page show" id="top">
   <div class="hero">
     <div class="hero-title">日本語教師の卵を、みんなで応援しよう</div>
@@ -254,7 +252,6 @@ a{text-decoration:none;color:inherit;}
   </div>
 </div>
 
-<!-- aboutページ -->
 <div class="page" id="about">
   <div class="about-wrap">
     <div class="about-hero">
@@ -300,7 +297,6 @@ a{text-decoration:none;color:inherit;}
   </div>
 </div>
 
-<!-- 提供者一覧ページ -->
 <div class="page" id="contrib">
   <div class="contrib-wrap">
     <div class="contrib-head">
@@ -316,7 +312,6 @@ a{text-decoration:none;color:inherit;}
   </div>
 </div>
 
-<!-- モーダル -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-img" id="modalImg"></div>
@@ -340,11 +335,16 @@ a{text-decoration:none;color:inherit;}
 const GAS_URL = 'https://script.google.com/macros/s/AKfycby5fhMe4njf5GZ7GzAH0WCxaoDkCOzLCs9qlbw9MV6_QRNs67uf68frnGNJ_pqXAGEb/exec';
 
 let allCards = [];
-let currentModal = null;
+let filteredCards = [];
+let currentMain = 'e';
 
-// ===================================
-// 起動時にデータ取得
-// ===================================
+const CAT_MAP = {
+  'e':   '絵カード',
+  'eai': '絵カード（AI生成）',
+  'p':   '教案',
+  'pai': '教案(AI)'
+};
+
 window.addEventListener('DOMContentLoaded', () => {
   fetch(GAS_URL + '?action=getCards')
     .then(res => res.json())
@@ -361,21 +361,23 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ===================================
-// ギャラリー描画
-// ===================================
 function renderGallery() {
   const query = (document.getElementById('searchInput').value || '').trim();
   const sort  = document.getElementById('sortSelect').value;
+  const catFilter = CAT_MAP[currentMain];
 
   let cards = allCards.filter(c => {
-    if (!query) return true;
-    return c.title.includes(query) || c.handle.includes(query) || c.category.includes(query);
+    const matchCat   = c.category === catFilter;
+    const matchQuery = !query || c.title.includes(query) || c.handle.includes(query);
+    return matchCat && matchQuery;
   });
 
   if (sort === 'dl') {
     cards = cards.slice().sort((a, b) => b.dlCount - a.dlCount);
   }
+
+  // フィルター後のカードをグローバルに保持（モーダル用）
+  filteredCards = cards;
 
   document.getElementById('cardCount').textContent = '（' + cards.length + '件）';
 
@@ -407,53 +409,35 @@ function renderGallery() {
   }).join('');
 }
 
-// ===================================
-// 提供者一覧描画
-// ===================================
 function renderContrib() {
   const dlMap = {};
   allCards.forEach(c => {
     dlMap[c.handle] = (dlMap[c.handle] || 0) + c.dlCount;
   });
-
   const sorted = Object.entries(dlMap).sort((a, b) => b[1] - a[1]);
-
   if (sorted.length === 0) {
     document.getElementById('contribList').innerHTML = '<div class="loading">提供者がいません</div>';
     return;
   }
-
-  const topHtml = sorted.slice(0, 1).map(([name, dl]) => `
+  const topHtml = `
     <div class="ranking-top" style="grid-template-columns:1fr;">
       <div class="rank-card first" style="max-width:200px;margin:0 auto;">
         <div class="rank-num-big" style="color:#EF9F27;">1位</div>
-        <div class="rank-avatar-big" style="background:#FAEEDA;">${name[0]}</div>
-        <div class="rank-name-big">${name}</div>
-        <div class="rank-dl-big">${dl} DL</div>
+        <div class="rank-avatar-big" style="background:#FAEEDA;">${sorted[0][0][0]}</div>
+        <div class="rank-name-big">${sorted[0][0]}</div>
+        <div class="rank-dl-big">${sorted[0][1]} DL</div>
       </div>
-    </div>
-  `).join('');
-
+    </div>`;
   const listHtml = '<div class="contrib-list">' + sorted.map(([name, dl], i) => `
     <div class="contrib-row">
       <div class="contrib-rank">${i + 1}</div>
       <div class="contrib-avatar" style="background:#FAEEDA;">${name[0]}</div>
-      <div style="flex:1;">
-        <div class="contrib-name">${name}</div>
-      </div>
-      <div class="contrib-stats">
-        <div class="contrib-dl">${dl}</div>
-        <div class="contrib-dl-label">DL数</div>
-      </div>
-    </div>
-  `).join('') + '</div>';
-
+      <div style="flex:1;"><div class="contrib-name">${name}</div></div>
+      <div class="contrib-stats"><div class="contrib-dl">${dl}</div><div class="contrib-dl-label">DL数</div></div>
+    </div>`).join('') + '</div>';
   document.getElementById('contribList').innerHTML = topHtml + listHtml;
 }
 
-// ===================================
-// サイドバーランキング描画
-// ===================================
 function renderSideRanking() {
   const dlMap = {};
   allCards.forEach(c => {
@@ -465,9 +449,6 @@ function renderSideRanking() {
   ).join('');
 }
 
-// ===================================
-// ダウンロード処理
-// ===================================
 function handleDownload(fileId) {
   fetch(GAS_URL + '?fileId=' + fileId)
     .then(res => res.json())
@@ -484,16 +465,12 @@ function handleDownload(fileId) {
   window.open('https://drive.google.com/file/d/' + fileId + '/view?usp=sharing', '_blank');
 }
 
-// ===================================
-// モーダル
-// ===================================
+// モーダルはfilteredCardsのインデックスで開く
 function openModal(i) {
-  const cards = allCards;
-  const c = cards[i];
-  currentModal = c;
-  const bg = getBgColor(c.category);
+  const c = filteredCards[i];
+  if (!c) return;
   const imgUrl = c.fileId ? 'https://drive.google.com/thumbnail?id=' + c.fileId + '&sz=w400' : '';
-  document.getElementById('modalImg').innerHTML = '<img src="' + imgUrl + '" alt="' + c.title + '" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">';
+  document.getElementById('modalImg').innerHTML = '<img src="' + imgUrl + '" alt="' + c.title + '">';
   document.getElementById('modalTitle').textContent = c.title + (c.isAI ? '【AI生成】' : '');
   document.getElementById('modalAuthor').innerHTML = c.handle + 'のイラスト';
   document.getElementById('modalStats').innerHTML =
@@ -510,9 +487,6 @@ function closeModal(e) {
   }
 }
 
-// ===================================
-// フィルター
-// ===================================
 function showPage(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
   document.getElementById(id).classList.add('show');
@@ -522,7 +496,6 @@ function showPage(id, btn) {
 }
 
 const lessonCounts = {mnn1:50,mnn2:50,dkj1:30,dkj2:30,tngu:30};
-let currentMain = 'e';
 
 function selectMain(el, cat) {
   document.querySelectorAll('.filter-row .tag').forEach(t => t.classList.remove('active','cat-e','cat-eai','cat-p','cat-pai'));
