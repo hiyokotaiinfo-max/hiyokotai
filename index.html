@@ -82,7 +82,10 @@ a{text-decoration:none;color:inherit;}
 .modal-stats{display:flex;gap:12px;margin-bottom:1.25rem;}
 .stat{font-size:12px;color:#854F0B;display:flex;align-items:center;gap:4px;}
 .modal-dl-btn{width:100%;padding:11px;border-radius:8px;border:none;background:#EF9F27;color:#412402;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;}
-.modal-close{width:100%;padding:8px;border-radius:8px;border:0.5px solid #F5C4B3;background:transparent;color:#854F0B;font-size:13px;cursor:pointer;}
+.modal-copy-box{background:#FFF8EE;border:0.5px solid #F5C4B3;border-radius:8px;padding:8px 12px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.modal-copy-text{font-size:12px;color:#633806;font-weight:500;}
+.modal-copy-btn{font-size:11px;padding:4px 10px;border-radius:6px;border:0.5px solid #F5C4B3;background:#fff;color:#854F0B;cursor:pointer;white-space:nowrap;transition:background 0.15s;}
+.modal-copy-btn:hover{background:#FAEEDA;}
 .loading{text-align:center;padding:3rem;color:#B4B2A9;font-size:14px;}
 .about-wrap{max-width:720px;margin:0 auto;padding:2rem 1.5rem;}
 .about-hero{text-align:center;padding:2rem 0 2.5rem;}
@@ -283,7 +286,7 @@ a{text-decoration:none;color:inherit;}
       <div class="rule-title"><i class="ti ti-list-check" style="font-size:16px;"></i>ご利用にあたってのお願い</div>
       <div class="rule-row"><i class="ti ti-check" style="color:#EF9F27;font-size:15px;margin-top:1px;flex-shrink:0;"></i>素材は日本語教育目的でご自由にお使いください</div>
       <div class="rule-row"><i class="ti ti-check" style="color:#EF9F27;font-size:15px;margin-top:1px;flex-shrink:0;"></i>素材の再配布・販売はご遠慮ください</div>
-      <div class="rule-row"><i class="ti ti-check" style="color:#EF9F27;font-size:15px;margin-top:1px;flex-shrink:0;"></i>クレジット表示は任意ですが、していただけると投稿者が喜びます</div>
+      <div class="rule-row"><i class="ti ti-check" style="color:#EF9F27;font-size:15px;margin-top:1px;flex-shrink:0;"></i>素材を使用する際は「ヒヨコ隊 / 投稿者名」の形式で出典を明記してください</div>
       <div class="rule-row"><i class="ti ti-check" style="color:#EF9F27;font-size:15px;margin-top:1px;flex-shrink:0;"></i>問題のある素材を見つけた場合は下記までご連絡ください</div>
     </div>
     <div class="about-admin">
@@ -325,6 +328,10 @@ a{text-decoration:none;color:inherit;}
     <div class="modal-author" id="modalAuthor"></div>
     <div class="modal-stats" id="modalStats"></div>
     <button class="modal-dl-btn" id="modalDlBtn"><i class="ti ti-download" style="font-size:16px;"></i>無料でダウンロード</button>
+    <div class="modal-copy-box">
+      <span class="modal-copy-text" id="modalCreditText"></span>
+      <button class="modal-copy-btn" id="modalCopyBtn" onclick="copyCredit()"><i class="ti ti-copy" style="font-size:11px;"></i> 出典をコピー</button>
+    </div>
     <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('show')">閉じる</button>
   </div>
 </div>
@@ -502,7 +509,18 @@ function openModal(i) {
     '<span class="stat"><i class="ti ti-tag" style="font-size:14px;"></i>' + c.category + '</span>' +
     (c.isAI ? '<span class="stat" style="color:#27500A;"><i class="ti ti-sparkles" style="font-size:14px;"></i>AI生成</span>' : '');
   document.getElementById('modalDlBtn').onclick = function() { handleDownload(c.fileId); };
+  document.getElementById('modalCreditText').textContent = 'ヒヨコ隊 / ' + c.handle;
+  document.getElementById('modalCopyBtn').textContent = '出典をコピー';
   document.getElementById('modalOverlay').classList.add('show');
+}
+
+function copyCredit() {
+  const text = document.getElementById('modalCreditText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('modalCopyBtn');
+    btn.textContent = 'コピーしました！';
+    setTimeout(() => { btn.innerHTML = '<i class="ti ti-copy" style="font-size:11px;"></i> 出典をコピー'; }, 2000);
+  });
 }
 
 function closeModal(e) {
