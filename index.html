@@ -144,6 +144,8 @@ a{text-decoration:none;color:inherit;}
     <nav class="nav">
       <button class="nav-btn active" onclick="showPage('top',this)">素材一覧</button>
       <button class="nav-btn" onclick="showPage('contrib',this)">提供者一覧</button>
+      <button class="nav-btn" onclick="showPage('request',this)">依頼箱</button>
+      <button class="nav-btn" onclick="showPage('useful',this)">お役立ち</button>
       <button class="nav-btn" onclick="showPage('about',this)">about</button>
       <a href="terms.html"><button class="nav-btn">利用規約</button></a>
     </nav>
@@ -339,6 +341,47 @@ a{text-decoration:none;color:inherit;}
   </div>
 </div>
 
+<!-- 依頼箱ページ -->
+<div class="page" id="request">
+  <div class="contrib-wrap">
+    <div class="contrib-head">
+      <div class="contrib-title">依頼箱</div>
+    </div>
+    <div style="background:#FFF8EE;border:0.5px solid #F5C4B3;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:14px;color:#854F0B;line-height:1.7;">
+      「こんな絵カードがあったら授業で使いたい」「この教科書のこの課の教案が欲しい」そんなリクエストをここに投稿してください。素材を提供してくれる有志が見て、作ってくれるかもしれません。いいねを押して、あなたも欲しい！を伝えましょう。<br>
+      <span style="font-size:12px;color:#B4B2A9;">※リクエストへの対応は有志による任意です。必ず素材が提供されるわけではありません。</span>
+    </div>
+    <div id="requestList"><div class="loading">🐣 読み込み中...</div></div>
+    <a href="https://docs.google.com/forms/d/1h6bCoGErGlyTXPoAF2TPVVWx9hg_maRypWbGBQgGcTo/viewform" target="_blank" style="text-decoration:none;">
+      <div class="join-box" style="margin-top:1.5rem;">
+        <div style="font-size:14px;font-weight:500;color:#633806;margin-bottom:4px;"><i class="ti ti-message-plus" style="font-size:16px;"></i> リクエストを投稿する</div>
+        <div style="font-size:13px;color:#854F0B;">欲しい素材をリクエストしよう →</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- お役立ち情報ページ -->
+<div class="page" id="useful">
+  <div class="contrib-wrap">
+    <div class="contrib-head">
+      <div class="contrib-title">お役立ち情報</div>
+    </div>
+    <div style="background:#FFF8EE;border:0.5px solid #F5C4B3;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:14px;color:#854F0B;line-height:1.7;">
+      日本語教育に役立つ情報をまとめています。スライドの作り方やAI活用など、授業準備に使えるコンテンツを随時追加していきます。
+    </div>
+    <div id="usefulList">
+      <div style="font-size:13px;color:#B4B2A9;text-align:center;padding:2rem;">準備中です。もうしばらくお待ちください🐣</div>
+    </div>
+    <a href="https://note.com/sato_nihongo/all" target="_blank" style="text-decoration:none;">
+      <div class="join-box" style="margin-top:1.5rem;">
+        <div style="font-size:14px;font-weight:500;color:#633806;margin-bottom:4px;"><i class="ti ti-notebook" style="font-size:16px;"></i> 管理者のnoteを見る</div>
+        <div style="font-size:13px;color:#854F0B;">日本語教育に関する記事を発信中 →</div>
+      </div>
+    </a>
+  </div>
+</div>
+
 <footer class="footer">
   <div class="footer-text">
     ヒヨコ隊｜日本語教師の卵を応援する有志による素材置き場<br>
@@ -389,6 +432,13 @@ window.addEventListener('DOMContentLoaded', () => {
     .catch(() => {
       document.getElementById('gallery').innerHTML = '<div class="loading">⚠️ 読み込みに失敗しました</div>';
     });
+
+  fetch(GAS_URL + '?action=getRequests')
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'ok') renderRequests(data.requests);
+    })
+    .catch(() => {});
 });
 
 function renderGallery() {
@@ -531,6 +581,53 @@ function closeModal(e) {
   if (e.target === document.getElementById('modalOverlay')) {
     document.getElementById('modalOverlay').classList.remove('show');
   }
+}
+
+// ===================================
+// 依頼箱
+// ===================================
+function renderRequests(requests) {
+  if (!requests || requests.length === 0) {
+    document.getElementById('requestList').innerHTML = '<div class="loading">まだリクエストがありません</div>';
+    return;
+  }
+  const likedIds = JSON.parse(localStorage.getItem('hiyoko_likes') || '[]');
+  const catColors = {'絵カード':'#FAEEDA','教案':'#EEEDFE','その他':'#EAF3DE'};
+  document.getElementById('requestList').innerHTML = requests
+    .slice().sort((a, b) => b.likes - a.likes)
+    .map(r => {
+      const bg = catColors[r.category] || '#EAF3DE';
+      const liked = likedIds.includes(r.id);
+      return `
+        <div class="contrib-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;width:100%;">
+            <span style="font-size:11px;padding:2px 10px;border-radius:99px;background:${bg};color:#633806;">${r.category}</span>
+            <span style="flex:1;font-size:14px;font-weight:500;color:#412402;">${r.request}</span>
+            <button onclick="toggleLike(${r.id},this)" style="display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99px;border:0.5px solid ${liked?'#EF9F27':'#F5C4B3'};background:${liked?'#FAEEDA':'#fff'};color:${liked?'#EF9F27':'#B4B2A9'};font-size:12px;cursor:pointer;">
+              <i class="ti ti-heart${liked?'-filled':''}" style="font-size:13px;"></i>${r.likes}
+            </button>
+          </div>
+          ${r.detail ? `<div style="font-size:13px;color:#854F0B;padding-left:4px;">${r.detail}</div>` : ''}
+        </div>`;
+    }).join('');
+}
+
+function toggleLike(id, btn) {
+  const likedIds = JSON.parse(localStorage.getItem('hiyoko_likes') || '[]');
+  if (likedIds.includes(id)) return;
+  fetch(GAS_URL + '?action=like&id=' + id)
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        likedIds.push(id);
+        localStorage.setItem('hiyoko_likes', JSON.stringify(likedIds));
+        btn.style.borderColor = '#EF9F27';
+        btn.style.background = '#FAEEDA';
+        btn.style.color = '#EF9F27';
+        btn.innerHTML = '<i class="ti ti-heart-filled" style="font-size:13px;"></i>' + data.likes;
+      }
+    })
+    .catch(() => {});
 }
 
 function showPage(id, btn) {
